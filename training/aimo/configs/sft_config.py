@@ -90,3 +90,5 @@ class SFTConfig(transformers.TrainingArguments):
             )
         },
     )
+
+    use_liger: Optional[bool] = False
