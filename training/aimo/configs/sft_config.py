@@ -15,11 +15,11 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-import transformers
+import trl
 
 
 @dataclass
-class SFTConfig(transformers.TrainingArguments):
+class SFTConfig(trl.SFTConfig):
     """
     Arguments related to the training process itself. For all parameters, see: https://huggingface.co/docs/transformers/v4.26.1/en/main_classes/trainer#transformers.TrainingArguments
     """
@@ -90,5 +90,3 @@ class SFTConfig(transformers.TrainingArguments):
             )
         },
     )
-
-    use_liger: Optional[bool] = False
