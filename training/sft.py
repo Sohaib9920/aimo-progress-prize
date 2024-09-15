@@ -40,7 +40,7 @@ from aimo.utils import (
     init_wandb_training,
 )
 from transformers import set_seed
-from trl import SFTTrainer
+from trl import SFTTrainer, get_quantization_config, get_peft_config
 
 logger = logging.getLogger(__name__)
 
@@ -114,12 +114,17 @@ def main():
         if model_config.torch_dtype in ["auto", None]
         else getattr(torch, model_config.torch_dtype)
     )
+
+    quantization_config = get_quantization_config(model_config) 
+    peft_config = get_peft_config(model_config)
+
     model_kwargs = dict(
         revision=model_config.model_revision,
         trust_remote_code=model_config.trust_remote_code,
         attn_implementation=model_config.attn_implementation,
         torch_dtype=torch_dtype,
         use_cache=False if sft_config.gradient_checkpointing else True,
+        quantization_config=quantization_config
     )
 
     model = model_config.model_name_or_path
@@ -149,6 +154,7 @@ def main():
         max_seq_length=data_config.block_size,
         tokenizer=tokenizer,
         packing=sft_config.packing,
+        peft_config=peft_config
     )
 
     ###############
