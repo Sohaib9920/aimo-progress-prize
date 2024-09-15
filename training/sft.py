@@ -156,6 +156,11 @@ def main():
         packing=sft_config.packing,
         peft_config=peft_config
     )
+    
+    print("memory allocated:", torch.cuda.memory_allocated())
+    print("memory reserved:", torch.cuda.memory_allocated())
+    print("Max memory allocated:", torch.cuda.max_memory_allocated())
+    print("Max memroy reserved:", torch.cuda.max_memory_reserved())
 
     ###############
     # Training loop
